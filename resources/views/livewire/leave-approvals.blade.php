@@ -15,10 +15,29 @@ new class extends Component {
         ];
     }
 
+    private function getWorkingDays($startDate, $endDate)
+    {
+        $start = Carbon::parse($startDate);
+        $end = Carbon::parse($endDate);
+        $days = 0;
+        
+        // Contoh daftar libur nasional. (Idealnya disimpan di database)
+        $nationalHolidays = [
+            '2026-01-01', '2026-08-17', '2026-12-25'
+        ];
+
+        for ($date = $start->copy(); $date->lte($end); $date->addDay()) {
+            if (!$date->isSunday() && !in_array($date->format('Y-m-d'), $nationalHolidays)) {
+                $days++;
+            }
+        }
+        return $days;
+    }
+
     public function approve(int $leaveId): void
     {
         $leave = Leave::with('user')->findOrFail($leaveId);
-        $days = Carbon::parse($leave->start_date)->diffInDays(Carbon::parse($leave->end_date)) + 1;
+        $days = $this->getWorkingDays($leave->start_date, $leave->end_date);
 
         if ($leave->type === 'Tahunan' && $leave->user->sisa_cuti < $days) {
             $this->dispatch('notify', message: 'Gagal! Kuota cuti karyawan tidak mencukupi.');
@@ -53,7 +72,7 @@ new class extends Component {
             
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-slate-100">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Karyawan</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
@@ -70,7 +89,7 @@ new class extends Component {
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">{{ \Carbon\Carbon::parse($leave->start_date)->format('d M') }} - {{ \Carbon\Carbon::parse($leave->end_date)->format('d M Y') }}</div>
-                                    <div class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($leave->start_date)->diffInDays(\Carbon\Carbon::parse($leave->end_date)) + 1 }} Hari</div>
+                                    <div class="text-sm text-gray-500">{{ $this->getWorkingDays($leave->start_date, $leave->end_date) }} Hari Kerja</div>
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
@@ -103,7 +122,7 @@ new class extends Component {
             
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-slate-100">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Karyawan</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Durasi</th>

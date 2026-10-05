@@ -109,7 +109,7 @@ new class extends Component {
     <div class="p-6 bg-white border-b border-gray-200">
         <h2 class="text-xl font-semibold mb-4 text-blue-700">Smart Attendance <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded ml-2">📍 GPS Enabled</span></h2>
         
-        <div class="flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
+        <div class="flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-lg bg-slate-100">
             <div class="text-3xl font-mono font-bold text-gray-700 mb-6" x-data="{ time: new Date().toLocaleTimeString('id-ID') }" x-init="setInterval(() => time = new Date().toLocaleTimeString('id-ID'), 1000)" x-text="time">
             </div>
 
@@ -134,12 +134,8 @@ new class extends Component {
                             }
                         },
                         handleCameraFail() {
-                            if (confirm('Kamera tidak terdeteksi (Anda sedang di Warnet/PC tanpa Webcam). Lanjutkan absen tanpa foto (Mode Testing)?')) {
-                                this.cameraOpen = false;
-                                this.proceedToLocation(null);
-                            } else {
-                                this.cameraOpen = false;
-                            }
+                            alert('GAGAL: Kamera tidak terdeteksi atau izin ditolak. Anda WAJIB menggunakan Webcam untuk melakukan absensi (Selfie).');
+                            this.cameraOpen = false;
                         },
                         takeSnapshotAndLocate() {
                             if (!this.stream) return;

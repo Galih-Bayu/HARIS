@@ -36,27 +36,27 @@ new class extends Component {
     
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- Card 1 -->
-        <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6 border-l-4 border-blue-500">
+        <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6 border-l-4 border-blue-600">
             <div class="text-sm font-medium text-gray-500 truncate">Total Karyawan</div>
             <div class="mt-1 text-3xl font-semibold text-gray-900">{{ $stats['totalKaryawan'] }}</div>
         </div>
         
         <!-- Card 2 -->
-        <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6 border-l-4 border-green-500">
+        <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6 border-l-4 border-blue-400">
             <div class="text-sm font-medium text-gray-500 truncate">Hadir / Clock-In</div>
-            <div class="mt-1 text-3xl font-semibold text-green-600">{{ $stats['hadirHariIni'] }}</div>
+            <div class="mt-1 text-3xl font-semibold text-blue-600">{{ $stats['hadirHariIni'] }}</div>
         </div>
 
         <!-- Card 3 -->
-        <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6 border-l-4 border-red-500">
+        <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6 border-l-4 border-blue-200">
             <div class="text-sm font-medium text-gray-500 truncate">Terlambat</div>
-            <div class="mt-1 text-3xl font-semibold text-red-600">{{ $stats['telatHariIni'] }}</div>
+            <div class="mt-1 text-3xl font-semibold text-blue-500">{{ $stats['telatHariIni'] }}</div>
         </div>
 
         <!-- Card 4 -->
-        <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6 border-l-4 border-yellow-500">
+        <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6 border-l-4 border-blue-100">
             <div class="text-sm font-medium text-gray-500 truncate">Cuti / Izin</div>
-            <div class="mt-1 text-3xl font-semibold text-yellow-600">{{ $stats['cutiHariIni'] }}</div>
+            <div class="mt-1 text-3xl font-semibold text-blue-400">{{ $stats['cutiHariIni'] }}</div>
         </div>
     </div>
     
@@ -81,7 +81,7 @@ new class extends Component {
                                 {{ $stats['cutiHariIni'] }},
                                 {{ $stats['belumAbsen'] }}
                             ],
-                            backgroundColor: ['#10B981', '#EF4444', '#F59E0B', '#9CA3AF'],
+                            backgroundColor: ['#2196f3', '#90caf9', '#bbdefb', '#e3f2fd'],
                             borderWidth: 0
                         }]
                     },
@@ -118,7 +118,8 @@ new class extends Component {
                             title: '{{ $leave->user->name }} ({{ $leave->type }})',
                             start: '{{ $leave->start_date }}',
                             end: '{{ \Carbon\Carbon::parse($leave->end_date)->addDay()->toDateString() }}',
-                            color: '{{ $leave->type === 'Tahunan' ? '#3B82F6' : '#EF4444' }}'
+                            color: '{{ $leave->type === 'Tahunan' ? '#3B82F6' : '#EF4444' }}',
+                            allDay: true
                         },
                         @endforeach
                     ]

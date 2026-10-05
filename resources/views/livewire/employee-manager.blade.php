@@ -79,7 +79,7 @@ new class extends Component {
                 <h2 class="text-xl font-semibold mb-4 text-gray-700">Daftar Karyawan Aktif</h2>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200 border">
-                        <thead class="bg-gray-50">
+                        <thead class="bg-slate-100">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama & Email</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bergabung Sejak</th>

@@ -24,6 +24,25 @@ new class extends Component {
         ];
     }
 
+    private function getWorkingDays($startDate, $endDate)
+    {
+        $start = Carbon::parse($startDate);
+        $end = Carbon::parse($endDate);
+        $days = 0;
+        
+        // Contoh daftar libur nasional. (Idealnya disimpan di database)
+        $nationalHolidays = [
+            '2026-01-01', '2026-08-17', '2026-12-25'
+        ];
+
+        for ($date = $start->copy(); $date->lte($end); $date->addDay()) {
+            if (!$date->isSunday() && !in_array($date->format('Y-m-d'), $nationalHolidays)) {
+                $days++;
+            }
+        }
+        return $days;
+    }
+
     public function submit(): void
     {
         // Simulasi Form Request strict validation rules
@@ -41,8 +60,8 @@ new class extends Component {
 
         $this->validate($rules);
 
-        // Hitung durasi hari
-        $days = Carbon::parse($this->start_date)->diffInDays(Carbon::parse($this->end_date)) + 1;
+        // Hitung durasi hari kerja (tidak termasuk minggu & libur nasional)
+        $days = $this->getWorkingDays($this->start_date, $this->end_date);
         
         if ($this->type === 'Tahunan' && $days > auth()->user()->sisa_cuti) {
             $this->addError('start_date', 'Durasi cuti melebihi sisa kuota cuti Anda!');
